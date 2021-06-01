@@ -12,10 +12,11 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://kit.fontawesome.com/ebff60aada.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#"><b>&#9881; To Do</b></a>
@@ -39,9 +40,10 @@
                 </div>
             </div>
         </nav>
-        <h1>Aqui vai ser a lista de tarefas</h1>
+        {% block content %}{% endblock %}
+  
         <footer>
-            Rodapé
+            <p>HoraDeCodar ToDo</p>
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
