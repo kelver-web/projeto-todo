@@ -4,23 +4,33 @@ from django.contrib.auth.decorators import login_required
 from tasks.models import Task
 from tasks.forms import TaskForm
 from django.contrib import messages
+import datetime
+
 # Create your views here.
 
 @login_required
 def tasklist(request):
+
     search = request.GET.get('search')
+    filter = request.GET.get('filter')
+    tasksDoneRecently = Task.objects.filter(done='done', updated_at__gt=datetime.datetime.now()-datetime.timedelta(days=30), user=request.user).count()
+    tasksDone = Task.objects.filter(done='done', user=request.user).count()
+    tasksDoing = Task.objects.filter(done='doing', user=request.user).count()
 
     if search:
-        tasks = Task.objects.filter(title__icontains=search)
+        tasks = Task.objects.filter(title__icontains=search, user=request.user)
+
+    elif filter:
+        tasks = Task.objects.filter(done=filter, user=request.user)
 
     else:
 
-        tasks_list = Task.objects.all().order_by('-created_at')
+        tasks_list = Task.objects.all().order_by('-created_at').filter(user=request.user)
 
         paginator = Paginator(tasks_list, 3)
         page = request.GET.get('page')
         tasks = paginator.get_page(page)
-    return render(request, 'tasks/list.html', {'tasks': tasks})
+    return render(request, 'tasks/list.html', {'tasks': tasks, 'tasksDoneRecently':tasksDoneRecently, 'tasksDone':tasksDone, 'tasksDoing':tasksDoing})
 
 @login_required
 def taskView(request, id):
@@ -35,6 +45,7 @@ def newtask(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.done = 'Doing'
+            task.user = request.user
             task.save()
             return redirect('/')
     else:
@@ -63,4 +74,17 @@ def deletetask(request, id):
     task.delete()
 
     messages.info(request, 'Tarefa deletada com sucesso!')
+    return redirect('/')
+
+@login_required
+def changestatus(request, id):
+    task = get_object_or_404(Task, pk=id)
+
+    if(task.done == 'doing'):
+        task.done = 'done'
+    else:
+        task.done = 'doing'
+
+    task.save()
+
     return redirect('/')
