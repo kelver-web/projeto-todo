@@ -5,8 +5,8 @@ from django.db import models
 
 class Task(models.Model):
     STATUS = (
-        ('doing', 'Doing'),
-        ('done', 'Done'),
+        ('Doing', 'Doing'),
+        ('Done', 'Done'),
     )
 
     title = models.CharField(max_length=255)

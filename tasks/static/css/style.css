@@ -23,7 +23,7 @@ container-fluid {
     letter-spacing: 1px;
 }
 
-/* Botão de acicionar */
+/* Botão de adicionar */
 
 #add-link {
     text-decoration: none;
@@ -34,7 +34,7 @@ container-fluid {
     cursor: pointer;
     display: inline-block;
     color: #FFF;
-    padding: 8px;
+    padding: 7px;
     border-radius: 5px;
     margin-right: 25px;
 }
@@ -51,6 +51,7 @@ container-fluid {
     position: absolute;
     top: 12px;
     right: 26px;
+    cursor: pointer;
 }
 
 .search-div {
@@ -117,4 +118,22 @@ ul.messages {
 
 ul.messages {
     list-style: none;
+    width: 250px;
+}
+
+/* paginatior */ 
+
+.pagination {
+    margin-bottom: 20px;
+}
+
+.step-links {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step-links .current {
+    margin-left: 5px;
+    margin-right: 5px;
 }
